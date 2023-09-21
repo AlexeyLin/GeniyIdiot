@@ -45,6 +45,8 @@ int[] answers = GetAnswers(countQuestions);
 string[] diagnoses = GetDiagnoses(countQuestions + 1);
 int countRightAnswers = 0;
 var randomArray = GetRandomArray(countQuestions);
+Console.WriteLine("Добро пожаловать в приложение Гений-идиот!\nВведите Ваше имя: ");
+string userName = Console.ReadLine();
 
 for (int i = 0; i < countQuestions; i++)
 {
@@ -59,4 +61,4 @@ for (int i = 0; i < countQuestions; i++)
 }
 
 Console.WriteLine("Количество правильных ответов: " + countRightAnswers);
-Console.WriteLine("Ваш диагноз:" + diagnoses[countRightAnswers]);
+Console.WriteLine($"{userName}, Ваш диагноз: {diagnoses[countRightAnswers]}");
