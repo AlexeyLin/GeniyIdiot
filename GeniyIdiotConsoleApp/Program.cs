@@ -39,23 +39,19 @@ static int[] GetRandomArray(int countQuestion)
     return arrayRandom;
 }
 
-
-
 int countQuestions = 5;
 string[] questions = GetQuestions(countQuestions);
 int[] answers = GetAnswers(countQuestions);
 string[] diagnoses = GetDiagnoses(countQuestions + 1);
 int countRightAnswers = 0;
 var randomArray = GetRandomArray(countQuestions);
-ShaffleQuestions(randomArray);
-ShaffleAnswers(randomArray);
 
 for (int i = 0; i < countQuestions; i++)
 {
     Console.WriteLine("Вопрос №" + (i + 1));
-    Console.WriteLine(questions[i]);
+    Console.WriteLine(questions[randomArray[i]]);
     int userAnswer = Convert.ToInt32(Console.ReadLine());
-    int rightAnswer = answers[i];
+    int rightAnswer = answers[randomArray[i]];
     if (userAnswer == rightAnswer)
     {
         countRightAnswers++;
@@ -64,13 +60,3 @@ for (int i = 0; i < countQuestions; i++)
 
 Console.WriteLine("Количество правильных ответов: " + countRightAnswers);
 Console.WriteLine("Ваш диагноз:" + diagnoses[countRightAnswers]);
-
-void ShaffleQuestions(int[] randomArray)
-{
-    Array.Sort(randomArray, questions);
-}
-
-void ShaffleAnswers(int[] randomArray)
-{
-    Array.Sort(randomArray, answers);
-}
