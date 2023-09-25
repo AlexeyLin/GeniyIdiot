@@ -1,4 +1,43 @@
-﻿static string[] GetQuestions(int countQuestions)
+﻿int countQuestions = 5;
+string[] questions = GetQuestions(countQuestions);
+int[] answers = GetAnswers(countQuestions);
+string[] diagnoses = GetDiagnoses(countQuestions + 1);
+Console.WriteLine("Добро пожаловать в приложение Гений-идиот!\nВведите Ваше имя: ");
+string userName = Console.ReadLine();
+while(true)
+{
+    int countRightAnswers = 0;
+    var randomArray = GetRandomArray(countQuestions);
+    for (int i = 0; i < countQuestions; i++)
+    {
+        Console.WriteLine("Вопрос №" + (i + 1));
+        Console.WriteLine(questions[randomArray[i]]);
+        int userAnswer = Convert.ToInt32(Console.ReadLine());
+        int rightAnswer = answers[randomArray[i]];
+        if (userAnswer == rightAnswer)
+        {
+            countRightAnswers++;
+        }
+    }
+
+    Console.WriteLine("Количество правильных ответов: " + countRightAnswers);
+    Console.WriteLine($"{userName}, Ваш диагноз: {diagnoses[countRightAnswers]}");
+    bool userAnswerContinue = GetUserAnswerContinue();
+    if (!userAnswerContinue) break;
+}
+
+static bool GetUserAnswerContinue()
+{
+    while (true)
+    {
+        Console.WriteLine("Желаете пройти тест заново? Введите да/нет.");
+        string userAnswerContinue = Console.ReadLine().ToLower();
+        if (userAnswerContinue == "да") return true;
+        if (userAnswerContinue == "нет") return false;
+    }
+}
+
+static string[] GetQuestions(int countQuestions)
 {
     string[] questions = new string[countQuestions];
     questions[0] = "Сколько будет два плюс два умноженное на два?";
@@ -38,33 +77,3 @@ static int[] GetRandomArray(int countQuestion)
     int[] arrayRandom = Enumerable.Range(0, countQuestion).OrderBy(x => random.Next()).ToArray();
     return arrayRandom;
 }
-
-int countQuestions = 5;
-string[] questions = GetQuestions(countQuestions);
-int[] answers = GetAnswers(countQuestions);
-string[] diagnoses = GetDiagnoses(countQuestions + 1);
-Console.WriteLine("Добро пожаловать в приложение Гений-идиот!\nВведите Ваше имя: ");
-string userName = Console.ReadLine();
-while(true)
-{
-    int countRightAnswers = 0;
-    var randomArray = GetRandomArray(countQuestions);
-    for (int i = 0; i < countQuestions; i++)
-    {
-        Console.WriteLine("Вопрос №" + (i + 1));
-        Console.WriteLine(questions[randomArray[i]]);
-        int userAnswer = Convert.ToInt32(Console.ReadLine());
-        int rightAnswer = answers[randomArray[i]];
-        if (userAnswer == rightAnswer)
-        {
-            countRightAnswers++;
-        }
-    }
-
-    Console.WriteLine("Количество правильных ответов: " + countRightAnswers);
-    Console.WriteLine($"{userName}, Ваш диагноз: {diagnoses[countRightAnswers]}");
-    Console.WriteLine("Желаете пройти тест заново? Введите да/нет.");
-    string userAnswerContinue = Console.ReadLine().ToLower();
-    if (userAnswerContinue == "нет") break;
-}
-
