@@ -1,7 +1,7 @@
-﻿int countQuestions = 5;
+﻿const int countQuestions = 5;
 string[] questions = GetQuestions(countQuestions);
 int[] answers = GetAnswers(countQuestions);
-string[] diagnoses = GetDiagnoses(countQuestions + 1);
+string[] diagnoses = GetDiagnoses();
 Console.WriteLine("Добро пожаловать в приложение Гений-идиот!\nВведите Ваше имя: ");
 string userName = Console.ReadLine();
 while(true)
@@ -22,9 +22,20 @@ while(true)
     }
 
     Console.WriteLine("Количество правильных ответов: " + countRightAnswers);
-    Console.WriteLine($"{userName}, Ваш диагноз: {diagnoses[countRightAnswers]}");
+    Console.WriteLine($"{userName}, Ваш диагноз: {GetDiagnose(countRightAnswers)}");
     bool userAnswerContinue = GetUserAnswerContinue();
     if (!userAnswerContinue) break;
+}
+
+string GetDiagnose(int countRightAnswers)
+{
+    int percentRightAnswers = countRightAnswers * 100 / countQuestions;
+    if (percentRightAnswers >= 0 && percentRightAnswers<=10) return diagnoses[0];
+    if (percentRightAnswers > 10 && percentRightAnswers <= 30) return diagnoses[1];
+    if (percentRightAnswers > 30 && percentRightAnswers <= 50) return diagnoses[2];
+    if (percentRightAnswers > 50 && percentRightAnswers <= 70) return diagnoses[3];
+    if (percentRightAnswers > 70 && percentRightAnswers <= 90) return diagnoses[4];
+    else return diagnoses[5];
 }
 
 static int GetUserAnswer()
@@ -71,7 +82,7 @@ static int[] GetAnswers(int countAnswers)
     return answers;
 }
 
-static string[] GetDiagnoses(int countDiagnoses)
+static string[] GetDiagnoses()
 {
     string[] diagnoses = new string[6];
     diagnoses[0] = "кретин";
