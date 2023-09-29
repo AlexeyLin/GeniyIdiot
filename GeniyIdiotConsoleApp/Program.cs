@@ -1,35 +1,44 @@
-﻿const int countQuestions = 5;
+﻿var countQuestions = 5;
 string[] questions = GetQuestions(countQuestions);
 int[] answers = GetAnswers(countQuestions);
 string[] diagnoses = GetDiagnoses();
-Console.WriteLine("Добро пожаловать в приложение Гений-идиот!\nВведите Ваше имя: ");
-string userName = Console.ReadLine();
 while(true)
 {
-    int countRightAnswers = 0;
+    Console.WriteLine("Добро пожаловать в приложение Гений-идиот!\nВведите Ваше имя: ");
+    var userName = Console.ReadLine();
+    var countRightAnswers = 0;
     var randomArray = GetRandomArray(countQuestions);
-    for (int i = 0; i < countQuestions; i++)
+    for (var i = 0; i < countQuestions; i++)
     {
         Console.WriteLine("Вопрос №" + (i + 1));
         Console.WriteLine(questions[randomArray[i]]);
         Console.WriteLine("Введите ответ:");
-        int userAnswer = GetUserAnswer();
-        int rightAnswer = answers[randomArray[i]];
+        var userAnswer = GetUserAnswer();
+        var rightAnswer = answers[randomArray[i]];
         if (userAnswer == rightAnswer)
         {
             countRightAnswers++;
         }
     }
-
     Console.WriteLine("Количество правильных ответов: " + countRightAnswers);
-    Console.WriteLine($"{userName}, Ваш диагноз: {GetDiagnose(countRightAnswers)}");
-    bool userAnswerContinue = GetUserAnswerContinue();
+    var userDiagnose = GetDiagnose(countRightAnswers);
+    Console.WriteLine($"{userName}, Ваш диагноз: {userDiagnose}");
+    await WriteResultToFile(userName, countRightAnswers, userDiagnose);
+    var userAnswerContinue = GetUserAnswerContinue();
     if (!userAnswerContinue) break;
+}
+
+async Task WriteResultToFile(string? userName, int countRightAnswers, string userDiagnose)
+{
+    using (StreamWriter writer = new StreamWriter(@".\usersResult.txt", true))
+    {
+        await writer.WriteLineAsync($"{userName} {countRightAnswers} {userDiagnose}");
+    }
 }
 
 string GetDiagnose(int countRightAnswers)
 {
-    int percentRightAnswers = countRightAnswers * 100 / countQuestions;
+    var percentRightAnswers = countRightAnswers * 100 / countQuestions;
     if (percentRightAnswers >= 0 && percentRightAnswers<=10) return diagnoses[0];
     if (percentRightAnswers > 10 && percentRightAnswers <= 30) return diagnoses[1];
     if (percentRightAnswers > 30 && percentRightAnswers <= 50) return diagnoses[2];
@@ -40,7 +49,7 @@ string GetDiagnose(int countRightAnswers)
 
 static int GetUserAnswer()
 {
-    int userAnswer;
+    var userAnswer = 0;
     while(true)
     {
         bool success = Int32.TryParse(Console.ReadLine(), out userAnswer);
@@ -54,7 +63,7 @@ static bool GetUserAnswerContinue()
     while (true)
     {
         Console.WriteLine("Желаете пройти тест заново? Введите да/нет.");
-        string userAnswerContinue = Console.ReadLine().ToLower();
+        var userAnswerContinue = Console.ReadLine().ToLower();
         if (userAnswerContinue == "да") return true;
         if (userAnswerContinue == "нет") return false;
     }
