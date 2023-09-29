@@ -12,7 +12,8 @@ while(true)
     {
         Console.WriteLine("Вопрос №" + (i + 1));
         Console.WriteLine(questions[randomArray[i]]);
-        int userAnswer = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Введите ответ:");
+        int userAnswer = GetUserAnswer();
         int rightAnswer = answers[randomArray[i]];
         if (userAnswer == rightAnswer)
         {
@@ -24,6 +25,18 @@ while(true)
     Console.WriteLine($"{userName}, Ваш диагноз: {diagnoses[countRightAnswers]}");
     bool userAnswerContinue = GetUserAnswerContinue();
     if (!userAnswerContinue) break;
+    Console.SetCursorPosition(0,3);
+}
+
+static int GetUserAnswer()
+{
+    int userAnswer;
+    while(true)
+    {
+        bool success = Int32.TryParse(Console.ReadLine(), out userAnswer);
+        if (success) return userAnswer;
+        else Console.WriteLine("Пожалуйста, введите число!");
+    }
 }
 
 static bool GetUserAnswerContinue()
