@@ -25,7 +25,6 @@ while(true)
     Console.WriteLine($"{userName}, Ваш диагноз: {diagnoses[countRightAnswers]}");
     bool userAnswerContinue = GetUserAnswerContinue();
     if (!userAnswerContinue) break;
-    Console.SetCursorPosition(0,3);
 }
 
 static int GetUserAnswer()
